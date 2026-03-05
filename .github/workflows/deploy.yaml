@@ -13,16 +13,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      # - name: Authenticate to Google Cloud
+      #   uses: google-github-actions/auth@v1
+      #   with:
+      #     credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # - name: Set up Cloud SDK
+      #   uses: google-github-actions/setup-gcloud@v1
 
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker asia-south1-docker.pkg.dev
+      # - name: Configure Docker for Artifact Registry
+      #   run: gcloud auth configure-docker asia-south1-docker.pkg.dev
 
       - name: Build Docker Image
         # Using 'genai-repo' to match your verified Artifact Registry
@@ -63,6 +63,5 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote remove space 2>/dev/null || true
-          git remote add space https://${HF_TOKEN}@huggingface.co/spaces/rinkesh15/genai-app
-          git push space main --force
+          git remote add space https://huggingface.co/spaces/rinkesh15/genai-app || true
+          git push https://rinkesh15:${HF_TOKEN}@huggingface.co/spaces/rinkesh15/genai-app main --force
